@@ -1,52 +1,52 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# A sample workflow which checks out the code, builds a container
-# image using Docker and scans that image for vulnerabilities using
-# Snyk. The results are then uploaded to GitHub Security Code Scanning
-#
-# For more examples, including how to limit scans to only high-severity
-# issues, monitor images for newly disclosed vulnerabilities in Snyk and
-# fail PR checks for new vulnerabilities, see https://github.com/snyk/actions/
-
-name: Snyk Container
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  schedule:
-    - cron: '28 7 * * 4'
-
-permissions:
-  contents: read
-
-jobs:
-  snyk:
-    permissions:
-      contents: read # para actions/checkout
-      security-events: write # para subir resultados SARIF
-      actions: read # solo necesario para repos privados
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build Docker image
-        run: docker build -t my-app-image .
-
-      - name: Run Snyk to check Docker image for vulnerabilities
-        id: snyk-scan
-        uses: snyk/actions/docker@v3
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          image: my-app-image
-          args: --file=Dockerfile --sarif-file-output=snyk.sarif --exclude-base-image-vulns
-
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk.sarif
+1| # This workflow uses actions that are not certified by GitHub.
+2| # They are provided by a third-party and are governed by
+3| # separate terms of service, privacy policy, and support
+4| # documentation.
+5| 
+6| # A sample workflow which checks out the code, builds a container
+7| # image using Docker and scans that image for vulnerabilities using
+8| # Snyk. The results are then uploaded to GitHub Security Code Scanning
+9| #
+10| # For more examples, including how to limit scans to only high-severity
+11| # issues, monitor images for newly disclosed vulnerabilities in Snyk and
+12| # fail PR checks for new vulnerabilities, see https://github.com/snyk/actions/
+13| 
+14| name: Snyk Container
+15| 
+16| on:
+17|   push:
+18|     branches: [ "main" ]
+19|   pull_request:
+20|     branches: [ "main" ]
+21|   schedule:
+22|     - cron: '28 7 * * 4'
+23| 
+24| permissions:
+25|   contents: read
+26| 
+27| jobs:
+28|   snyk:
+29|     permissions:
+30|       contents: read # para actions/checkout
+31|       security-events: write # para subir resultados SARIF
+32|       actions: read # solo necesario para repos privados
+33|     runs-on: ubuntu-latest
+34|     steps:
+35|       - uses: actions/checkout@v4
+36| 
+37|       - name: Build Docker image
+38|         run: docker build -t my-app-image .
+39| 
+40|       - name: Run Snyk to check Docker image for vulnerabilities
+41|         id: snyk-scan
+42|         uses: snyk/actions/docker@v2
+43|         env:
+44|           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+45|         with:
+46|           image: my-app-image
+47|           args: --file=Dockerfile --sarif-file-output=snyk.sarif --exclude-base-image-vulns
+48| 
+49|       - name: Upload result to GitHub Code Scanning
+50|         uses: github/codeql-action/upload-sarif@v3
+51|         with:
+52|           sarif_file: snyk.sarif
