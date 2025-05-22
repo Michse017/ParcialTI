@@ -1,14 +1,14 @@
 # Use an official Node.js runtime as a parent image
 FROM node:24.0.2-bookworm-slim
 
-# Parchea GCC (CVE-2023-4039) y system libs a sus versiones seguras
+# Parchea GCC (CVE-2023-4039), login/passwd (CVE Arbitrary Code Injection) y luego actualiza el sistema
 RUN apt-get update && \
-    # Instala/actualiza solo las libs afectadas a la versión parcheada
     apt-get install --only-upgrade -y --no-install-recommends \
       gcc-12-base=12.2.0-14+deb12u1 \
       libgcc-s1=12.2.0-14+deb12u1 \
-      libstdc++6=12.2.0-14+deb12u1 && \
-    # Luego actualiza el resto del sistema
+      libstdc++6=12.2.0-14+deb12u1 \
+      login=1:4.13+dfsg1-1+deb12u1 \
+      passwd=1:4.13+dfsg1-1+deb12u1 && \
     apt-get upgrade -y --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
