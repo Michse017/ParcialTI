@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:24.0.2-bookworm-slim
+FROM node:24.0.2-alpine3.21
 
 # Parchea todas las librerías (incluido systemd) a sus versiones seguras
 RUN apt-get update && \
