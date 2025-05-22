@@ -38,7 +38,7 @@ jobs:
       run: docker build -t your/image-to-test .
     - name: Run Snyk to check Docker image for vulnerabilities
       continue-on-error: true
-      uses: snyk/actions/docker@v4
+      uses: snyk/actions/docker@v1
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
