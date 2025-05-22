@@ -48,8 +48,8 @@ jobs:
     - name: Normalize security-severity in SARIF
       run: |
         sed -i \
-          -e 's/"security-severity": "undefined"/"security-severity": 0/g' \
-          -e 's/"security-severity": null/"security-severity": 0/g' \
+          -e 's/"security-severity"[[:space:]]*:[[:space:]]*"undefined"/"security-severity": 0/g' \
+          -e 's/"security-severity"[[:space:]]*:[[:space:]]*null/"security-severity": 0/g' \
           snyk.sarif
 
     - name: Upload result to GitHub Code Scanning
