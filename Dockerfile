@@ -1,10 +1,9 @@
 # Use an official Node.js runtime as a parent image
 FROM node:24.0.2-bookworm-slim
 
-# parchea la vulnerabilidad SNYK-DEBIAN12-SYSTEMD-5733385
+# Parchea todas las librerías (incluido systemd) a sus versiones seguras
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-      systemd=249.12-1+deb12u2 && \
+    apt-get upgrade -y --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
@@ -23,4 +22,4 @@ COPY . .
 EXPOSE 3000
 
 # Define the command to run the application
-CMD ["npm", "start"]
+CMD ["npm","start"]
