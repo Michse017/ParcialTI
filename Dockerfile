@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:24.0.2-bookworm-slim
+FROM node:24.0.2-alpine3.21
 
 # Parchea GCC (CVE-2023-4039), login/passwd (CVE Arbitrary Code Injection) y luego actualiza el sistema
 RUN apt-get update && \
